@@ -16,7 +16,11 @@ public class Lion {
         }
     }
 
-    Feline feline = new Feline();
+    private Feline feline;
+
+    public Lion(Feline feline) { // Принцип инъекции зависимостей. Теперь Lion не зависит от Feline
+        this.feline = feline;
+    }
 
     public int getKittens() {
         return feline.getKittens();
