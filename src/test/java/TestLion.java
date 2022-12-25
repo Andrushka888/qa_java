@@ -15,16 +15,18 @@ import static org.junit.Assert.assertEquals;
 @RunWith(Parameterized.class)
 public class TestLion {
     private final String lionGender;
-    public TestLion(String lionGender) {
+    private final boolean expectedPresenceMane;
+    public TestLion(String lionGender, boolean expectedPresenceMane) {
         this.lionGender = lionGender;
+        this.expectedPresenceMane = expectedPresenceMane;
     }
 
     @Parameterized.Parameters
     public static Object[][] getTestData() {
         return new Object[][] {
-                {"Самец"},
-                {"Нечто иное"},
-                {"Самка"}
+                {"Самец", true},
+                {"Нечто иное", false},
+                {"Самка", false}
         };
     }
 
@@ -50,16 +52,15 @@ public class TestLion {
     }
 
     @Test
-    public void TestLionHaveManeIfHeMale() throws Exception {
+    public void TestLionHaveMane() throws Exception {
         try {
         Lion lion = new Lion(lionGender, feline);
-        boolean expectedPresenceMane = true;
+        boolean expectedPresenceManeIfLionIsMale = expectedPresenceMane;
         boolean actualPresenceMane = lion.doesHaveMane();
-        assertEquals(expectedPresenceMane, actualPresenceMane);
+
+        assertEquals("Грива должна быть только у самца, иначе false", expectedPresenceManeIfLionIsMale, actualPresenceMane);
     } catch(Exception exception) {
         System.out.println("Должны использоваться только допустимые значения пола животного - Самец или Самка");
-    } catch(AssertionError notExpected) {
-            System.out.println("Должен быть пол 'Самец'");
         }
     }
 
